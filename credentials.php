@@ -9,3 +9,4 @@ $database_password =    'password';
 $database_host =        'localhost';
 $database_name =        'albums';
 $port =                 '5432';
+?>
