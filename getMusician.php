@@ -12,7 +12,7 @@ error_reporting(E_ALL);
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>getMusician</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="playedWithMiles.css">
 </head>
 
@@ -30,11 +30,6 @@ $statement->execute();
 $musician = $statement->fetch(PDO::FETCH_ASSOC);
 ?>
 
-<div class="musician">
-    <h2> <?php echo ($musician['firstname'] . " " . $musician['lastname']); ?> </h2>
-    <img src=<?php echo ($musician['imagelocation']); ?> alt=<?php echo ($musician['imagelocation']); ?> />
-    <p> <?php echo ($musician['bio']); ?></p>
-</div>
 
 <?php
 function getTracks($musician_id, $album_id)
@@ -57,45 +52,57 @@ function getTracks($musician_id, $album_id)
 }
 ?>
 
-<?php
-function getAlbums($musician_id)
-{
-    require 'credentials.php';
-    $pdo = new PDO("pgsql:host=$database_host;port=$port;dbname=$database_name;", $database_user, $database_password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $albumSet = $pdo->prepare("SELECT albums.albumtitle, albums.imageLocation , albums.album_id FROM albums
+<body>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="musician">
+                <h2> <?php echo ($musician['firstname'] . " " . $musician['lastname']); ?> </h2>
+                <img src=<?php echo ($musician['imagelocation']); ?> alt=<?php echo ($musician['imagelocation']); ?> />
+                <p> <?php echo ($musician['bio']); ?></p>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <?php
+            function getAlbums($musician_id)
+            {
+                require 'credentials.php';
+                $pdo = new PDO("pgsql:host=$database_host;port=$port;dbname=$database_name;", $database_user, $database_password);
+                $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $albumSet = $pdo->prepare("SELECT albums.albumtitle, albums.imageLocation , albums.album_id FROM albums
                                     INNER JOIN musicianAlbum ON albums.album_id = musicianAlbum.album_id
                                     WHERE musicianAlbum.musician_id = '" .  $musician_id . "'
                                     ORDER BY albums.releasedate");
-    $albumSet->execute();
-    $albums = $albumSet->fetchAll(PDO::FETCH_ASSOC); ?>
+                $albumSet->execute();
+                $albums = $albumSet->fetchAll(PDO::FETCH_ASSOC); ?>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Appeared on album: </th>
-                <th scope="col">Played on tracks:</th>
-            </tr>
-        </thead>
-        <?php foreach ($albums as $album) { ?>
-            <tbody>
-                <tr>
-                    <td>
-                        <?php echo ($album['albumtitle']); ?><br>
-                        <img src=<?php echo ($album['imagelocation']); ?> alt=<?php echo ($album['imagelocation']);  ?> /><br>
-                    </td>
-                    <td>
-                        <?php getTracks($musician_id, $album['album_id']) ?><br>
-                    </td>
-                </tr>
-            </tbody>
-        <?php } ?>
-    </table>
-<?php } ?>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Appeared on album: </th>
+                            <th scope="col">Played on tracks:</th>
+                        </tr>
+                    </thead>
+                    <?php foreach ($albums as $album) { ?>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <?php echo ($album['albumtitle']); ?><br>
+                                    <img src=<?php echo ($album['imagelocation']); ?> alt=<?php echo ($album['imagelocation']);  ?> /><br>
+                                </td>
+                                <td>
+                                    <?php getTracks($musician_id, $album['album_id']) ?><br>
+                                </td>
+                            </tr>
+                        </tbody>
+                    <?php } ?>
+                </table>
+            <?php } ?>
 
-
-<?php getAlbums($q) ?>
-
+            <?php getAlbums($q) ?>
+        </div>
+    </div>
+</body>
 
 
 </html>
