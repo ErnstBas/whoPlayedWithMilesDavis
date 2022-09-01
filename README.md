@@ -35,7 +35,9 @@ Albums
 Since I am still working on this project, this readme file will contain more details about the project later.
 
 Overview of the database (made with Lucidchart):
-![image](https://user-images.githubusercontent.com/50556177/177042158-da3ffaa7-12b3-4d0a-bee2-5306759691be.png)
+
+  ![image](https://user-images.githubusercontent.com/50556177/187844286-76b22364-8fd6-4310-a931-e80f2cb9ab26.png)
+
 
 Importing a db.sql file:
 ```
