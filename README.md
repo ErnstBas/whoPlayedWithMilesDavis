@@ -2,7 +2,7 @@
 
 <work in progress>
 
-##Website
+## Website
 
 Project that includes a PHP based webside, uses AJAX to dynamically update the page and a Postgresql database, to collect some of the musicians that played with Miles Davis.
 Info and images are mostly taken from Wikipedia.
@@ -11,7 +11,7 @@ I used Bootstrap for basic formatting of the page.
 ![image](https://user-images.githubusercontent.com/50556177/187842157-c1f9c222-6599-407a-99fd-2cdb01927124.png)
 
   
-##CRUD
+## CRUD
 
 CRUD functionality added, although still some issues to solve. In short:
 Albums, tracks and musicians can be created, read, updated and deleted.
